@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tombola</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f2f2f7;
+      margin: 0;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    h1 {
+      margin-bottom: 20px;
+      color: #333;
+    }
+    #tabellone {
+      display: grid;
+      grid-template-columns: repeat(10, 50px);
+      gap: 8px;
+      margin-bottom: 20px;
+    }
+    .numero {
+      width: 50px;
+      height: 50px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+      font-weight: bold;
+      font-size: 18px;
+      transition: all 0.3s;
+    }
+    .estratto {
+      background: #ffcf3c;
+      color: black;
+      transform: scale(1.1);
+    }
+    #pulsante {
+      padding: 15px 25px;
+      font-size: 18px;
+      background: #ff7f50;
+      border: none;
+      color: white;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    #pulsante:hover {
+      background: #ff9966;
+    }
+    #ultimoEstratto {
+      margin-top: 15px;
+      font-size: 24px;
+      font-weight: bold;
+      color: #444;
+    }
+  </style>
+</head>
+<body>
+  <h1>Tabellone Tombola</h1>
+  <div id="tabellone"></div>
+  <button id="pulsante">Estrai Numero</button>
+  <div id="ultimoEstratto">Ultimo estratto: -</div>
+
+  <script>
+    const tabellone = document.getElementById("tabellone");
+    const ultimoEstratto = document.getElementById("ultimoEstratto");
+    const pulsante = document.getElementById("pulsante");
+
+    let numeri = [];
+    let estratti = [];
+
+    // Creazione tabellone da 1 a 90
+    function creaTabellone() {
+      for (let i = 1; i <= 90; i++) {
+        let cella = document.createElement("div");
+        cella.classList.add("numero");
+        cella.id = "num" + i;
+        cella.textContent = i;
+        tabellone.appendChild(cella);
+        numeri.push(i);
+      }
+    }
+
+    // Estrazione numero casuale
+    function estraiNumero() {
+      if (numeri.length === 0) {
+        alert("Tutti i numeri sono stati estratti!");
+        return;
+      }
+
+      let index = Math.floor(Math.random() * numeri.length);
+      let numeroEstratto = numeri.splice(index, 1)[0];
+      estratti.push(numeroEstratto);
+
+      document.getElementById("num" + numeroEstratto).classList.add("estratto");
+      ultimoEstratto.textContent = "Ultimo estratto: " + numeroEstratto;
+    }
+
+    creaTabellone();
+    pulsante.addEventListener("click", estraiNumero);
+  </script>
+</body>
+</html>
